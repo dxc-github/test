@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.jwttest.dao.ArticleDao">
+    <resultMap id="articleMap" type="com.example.jwttest.entity.Article">
+        <id column="aid" property="activeId" />
+        <result column="title" property="title" />
+        <result column="view_count" property="viewCount" />
+        <result column="classify_id" property="classifyId" />
+        <result column="context_synopsis" property="contextSynopsis" />
+        <result column="context" property="context" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <collection property="labels" ofType="Label">
+            <id column="lid" property="labelId" />
+            <result column="label_name" property="labelName" />
+        </collection>
+    </resultMap>
+    <select id="selectAll" resultMap="articleMap">
+        SELECT a.id aid,a.title,l.id lid,l.label_name FROM article a
+        LEFT JOIN article_label al ON a.id = al.article_id
+        LEFT JOIN label l ON l.id = al.label_id
+        LIMIT 0,3
+    </select>
+
+</mapper>
